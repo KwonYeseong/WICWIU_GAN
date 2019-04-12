@@ -1,0 +1,28 @@
+* parameter에서 trainiable의 의미는 1) Gradient를 계산할 지 여부와 2) Update할 지 두 가지 의미를 구분해야 함
+* GAN은 가끔 자신은 update하지 않지만 backpropagation을 위해 gradient가 필요한 경우가 발생
+
+* IsTrainable()이라는 개념과 HasGradient()라는 개념을 분리.
+* 전자는 학습시 update 여부 후자는 gradient 계산 여부.
+* HasGradient() == false일 때에는 무조건 IsTrainable() == false
+
+* Temporary freeze 기능 필요. 특정 parameter를 update에서 임시로 제외하는 기능.
+* GAN Generator 학습 시 Discriminator를 Freeze 해야 함.
+
+* 변수명/함수명/type명/상수명 대소문자 구분
+   - 변수명은 첫자를 소문자로 시작
+   - 함수명: 첫자를 대문자로 시작
+   - type명: 첫자를 대문자로 시작
+   - 상수명은 전체를 대문자로
+
+* generator와 discriminator 관련 파라미터들은 gen, disc라고 prefix합시다.
+
+* Deallocate하는 함수는 모두 virtual function으로 선언
+   destructor, Delete(), DeleteOnGPU()
+
+* Train/Test 함수에서 OnGPU()와 OnCPU()는 최후의 단계에서 분리할 것
+   예: TestGeneratorOnCPU()/TestGeneratorOnGPU()를 하나로 작성하고 그 아래쪽 함수에서 구분하는 방안을 고려해 주세요.
+
+* NoiseGenerator 관련
+   - NormalNoiseGenerator --> GaussianNoiseGenerator   (발음하기 편함)
+   - GaussianNoiseGenerator()에 truncation option을 넣어주세요.
+   - UniformNoiseGenerator도 만들어주세요.
