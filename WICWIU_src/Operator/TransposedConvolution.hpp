@@ -141,6 +141,8 @@ public:
         this->SetResult(new Tensor<DTYPE>((*shapeOfInput)[0], (*shapeOfInput)[1], (*shapeOfWeight)[2], outputHeight, outputWidth));
         this->SetDelta(new Tensor<DTYPE>((*shapeOfInput)[0], (*shapeOfInput)[1], (*shapeOfWeight)[2], outputHeight, outputWidth));
 
+        std::cout << outputWidth << " " << outputHeight << std::endl;
+
         return TRUE;
     }
 
@@ -194,6 +196,8 @@ public:
         checkCUDNN(cudnnCreateFilterDescriptor(&filterDesc));
         checkCUDNN(cudnnCreateFilterDescriptor(&filterDeltaDesc));
 
+        std::cout << "trainsposed Conv "<<  batchsize << "ch:" << channelsize << " ro:" << rowsize << " co:" << colsize << std::endl;
+
         checkCUDNN(cudnnSetTensor4dDescriptor(inputTensorDesc, CUDNN_TENSOR_NCHW, CUDNN_DATA_FLOAT,
                                               batchsizeOfInput, channelsizeOfInput, rowsizeOfInput, colsizeOfInput));
 
@@ -215,7 +219,6 @@ public:
         checkCUDNN(cudnnSetConvolution2dDescriptor(convDesc, m_padding[0], m_padding[1], m_stride[0], m_stride[1],
                                                    1, 1, CUDNN_CROSS_CORRELATION, CUDNN_DATA_FLOAT));
 
-
         checkCUDNN(cudnnGetConvolutionForwardAlgorithm(this->GetCudnnHandle(), outputTensorDesc, filterDesc, convDesc, inputTensorDesc,
                                                        CUDNN_CONVOLUTION_FWD_SPECIFY_WORKSPACE_LIMIT, 0, &m_algo));
 
@@ -227,6 +230,7 @@ public:
 
         checkCUDNN(cudnnGetConvolutionBackwardFilterAlgorithm(this->GetCudnnHandle(), deltaDesc, inputTensorDesc, convDesc, filterDeltaDesc,
                                                               CUDNN_CONVOLUTION_BWD_FILTER_SPECIFY_WORKSPACE_LIMIT, 0, &m_filterAlgo));
+
 
         checkCUDNN(cudnnGetConvolutionBackwardDataWorkspaceSize(this->GetCudnnHandle(), filterDesc, inputDeltaDesc, convDesc, deltaDesc, m_dataAlgo, &m_dataSizeInBytes));
 

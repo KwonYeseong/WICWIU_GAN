@@ -5,12 +5,14 @@
 #include "../../WICWIU_src/Operator/NoiseGenerator/GaussianNoiseGenerator.hpp"
 #include <time.h>
 
-#define BATCH                 64
+#define BATCH                 10
 #define EPOCH                 100
 #define LOOP_FOR_TRAIN        (60000 / BATCH)
 #define LOOP_FOR_TEST         (10000 / BATCH)
 #define LOOP_FOR_TRAIN_DISC   5
 #define GPUID                 0
+
+using namespace std;
 
 int main(int argc, char const *argv[]) {
     clock_t startTime, endTime;
@@ -28,7 +30,7 @@ int main(int argc, char const *argv[]) {
 
     // ======================= Select net ===================
     GAN<float> *net  = new my_GAN<float>(z, x, label);
-    net->Load(filename);
+    //net->Load(filename);
 
     // ======================= Prepare Data ===================
     MNISTDataSet<float> *dataset = CreateMNISTDataSet<float>();

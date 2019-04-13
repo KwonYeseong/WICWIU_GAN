@@ -41,7 +41,8 @@ public:
 
         // ======================= layer 5 ====================
         out = new Linear<float>(out, 1024, 784, TRUE, "G_L5");
-        out = new Tanh<float>(out, "Tanh");
+        out = new Sigmoid<float>(out, "D_Sigmo");
+        // out = new Tanh<float>(out, "Tanh");
 
         this->AnalyzeGraph(out);
     }

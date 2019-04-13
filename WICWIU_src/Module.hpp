@@ -168,6 +168,10 @@ template<typename DTYPE> Module<DTYPE>::Module(std::string pName) : Operator<DTY
     m_numOfExcutableOperator = 0;
     m_pLastOperator          = NULL;
     m_idOfDevice             = -1;
+    m_InputDegree            = 0;
+    m_ParameterDegree        = 0;
+    m_numOfExcutableOperator = 0;
+
 
     Alloc();
 }
@@ -620,7 +624,10 @@ template<typename DTYPE> void Module<DTYPE>::SetDeviceGPUOnModule(cudnnHandle_t&
         (*m_apParameter)[i]->SetDeviceGPU(pCudnnHandle, idOfDevice);
     }
 
+    std::cout << this->GetName() << "\n";
+
     for (int i = 0; i < m_InputDegree; i++) {
+        std::cout << "input defree in module!" << m_InputDegree << std::endl;
         // important order
         (*m_apInput)[i]->SetDeviceGPU(pCudnnHandle, idOfDevice);
     }

@@ -45,6 +45,8 @@ $(WICWIU_LIB): $(WICWIU_SRC)
 
 clean:
 	rm -rf *.o main
+
+clean_img:
 	rm generated/*
 	rm evaluated/*
 

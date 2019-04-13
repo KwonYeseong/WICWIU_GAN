@@ -339,7 +339,7 @@ template<typename DTYPE> int GAN<DTYPE>::TrainGeneratorOnGPU(){
 template<typename DTYPE> int GAN<DTYPE>::TrainDiscriminatorOnGPU(){
     #ifdef __CUDNN__
         this->ResetResult();
-        m_pDiscriminator->ResetGradient();
+        this->ResetGradient();
         this->ResetDiscriminatorLossFunctionResult();
         this->ResetDiscriminatorLossFunctionGradient();
 
@@ -356,7 +356,7 @@ template<typename DTYPE> int GAN<DTYPE>::TrainDiscriminatorOnGPU(){
         m_pDiscriminator->BackPropagateOnGPU();
 
         this->ResetResult();
-        m_pDiscriminator->ResetGradient();
+        this->ResetGradient();
         this->ResetDiscriminatorLossFunctionResult();
         this->ResetDiscriminatorLossFunctionGradient();
 
