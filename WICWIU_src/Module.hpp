@@ -434,9 +434,7 @@ template<typename DTYPE> int Module<DTYPE>::SetModeInference() {
 template<typename DTYPE> int Module<DTYPE>::ForwardPropagate(int pTime) {
     // std::cout << this->GetName() << " forward, m_numOfExcutableOperator : " << m_numOfExcutableOperator << '\n';
     for (int i = 0; i < m_numOfExcutableOperator; i++) {
-        // std::cout << (*m_aaExcutableOperator)[i]->GetName() << '\n';
         (*m_aaExcutableOperator)[i]->ForwardPropagate(pTime);
-        // std::cout << "(*m_aaExcutableOperator)[i]->ForwardPropagate(pTime) : end" << '\n';
     }
     return TRUE;
 }
@@ -448,11 +446,8 @@ template<typename DTYPE> int Module<DTYPE>::ForwardPropagate(int pTime) {
  * @return TRUE
  */
 template<typename DTYPE> int Module<DTYPE>::BackPropagate(int pTime) {
-  // std::cout << this->GetName() << " backward, m_numOfExcutableOperator : " << m_numOfExcutableOperator << '\n';
     for (int i = m_numOfExcutableOperator - 1; i >= 0; i--) {
-        // std::cout << (*m_aaExcutableOperator)[i]->GetName() << '\n';
         (*m_aaExcutableOperator)[i]->BackPropagate(pTime);
-        // std::cout << "(*m_aaExcutableOperator)[i]->BackPropagate(pTime) : end" << '\n';
     }
     return TRUE;
 }
@@ -627,7 +622,6 @@ template<typename DTYPE> void Module<DTYPE>::SetDeviceGPUOnModule(cudnnHandle_t&
     std::cout << this->GetName() << "\n";
 
     for (int i = 0; i < m_InputDegree; i++) {
-        std::cout << "input defree in module!" << m_InputDegree << std::endl;
         // important order
         (*m_apInput)[i]->SetDeviceGPU(pCudnnHandle, idOfDevice);
     }
@@ -641,9 +635,7 @@ template<typename DTYPE> void Module<DTYPE>::SetDeviceGPUOnModule(cudnnHandle_t&
  */
 template<typename DTYPE> int Module<DTYPE>::ForwardPropagateOnGPU(int pTime) {
     for (int i = 0; i < m_numOfExcutableOperator; i++) {
-        // std::cout << "forward " << (*m_aaExcutableOperator)[i]->GetName() << '\n';
         (*m_aaExcutableOperator)[i]->ForwardPropagateOnGPU(pTime);
-        // std::cout << (*m_aaExcutableOperator)[i]->GetName() << " end" << '\n';
     }
     return TRUE;
 }
@@ -656,9 +648,7 @@ template<typename DTYPE> int Module<DTYPE>::ForwardPropagateOnGPU(int pTime) {
  */
 template<typename DTYPE> int Module<DTYPE>::BackPropagateOnGPU(int pTime) {
     for (int i = m_numOfExcutableOperator - 1; i >= 0; i--) {
-        // std::cout << "backward " << (*m_aaExcutableOperator)[i]->GetName() << '\n';
         (*m_aaExcutableOperator)[i]->BackPropagateOnGPU(pTime);
-        // std::cout << (*m_aaExcutableOperator)[i]->GetName() << " end" << '\n';
     }
     return TRUE;
 }

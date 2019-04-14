@@ -16,11 +16,10 @@ public:
 
     int Alloc(Operator<float> *x){
         this->SetInput(x);
-        
-        const int D = 128;
-        
+                
         Operator<float> *out = x;
 
+        // // for 64 x 64
         // // ======================= layer 1 ======================
         // out = new ConvolutionLayer2D<float>(out, 1, D, 4, 4, 2, 2, 1, 1, "D_Conv1");
         // out = new Relu<float>(out, "D_R1");
@@ -44,27 +43,21 @@ public:
         // out = new ConvolutionLayer2D<float>(out, D*8, 1, 4, 4, 1, 1, 0, 0, "D_Conv1");
 
         // out = new Sigmoid<float>(out, "D_Sigmo");
+
         out = new ReShape<float>(out, 1, 28, 28, "Flat2Img");
 
         out = new ConvolutionLayer2D<float>(out, 1, 64, 4, 4, 2, 2, 1, 1, "D_Conv1");
-        out = new BatchNormalizeLayer<float>(out, TRUE, "ghr");
-        out = new Relu<float>(out, "D_R1");
+        out = new BatchNormalizeLayer<float>(out, TRUE, "D_BN1");
+        out = new Relu<float>(out, "D_Relu1");
 
-        // out = new ConvolutionLayer2D<float>(out, 32, 64, 5, 5, 2, 2, 1, 1, "D_Conv1");
-        // out = new BatchNormalizeLayer<float>(out, FALSE, "sdwd");
-        // out = new Relu<float>(out, "D_R1");
+        out = new ConvolutionLayer2D<float>(out, 64, 128, 4, 4, 2, 2, 1, 1, "D_Conv2");
+        out = new BatchNormalizeLayer<float>(out, TRUE, "D_BN2");
+        out = new Relu<float>(out, "D_Relu2");
 
-        out = new ConvolutionLayer2D<float>(out, 64, 128, 4, 4, 2, 2, 1, 1, "D_Conv1");
-        out = new BatchNormalizeLayer<float>(out, TRUE, "ewrq");
-        out = new Relu<float>(out, "D_R2");
-
-        out = new ReShape<float>(out, 1, 1, 128 * 7 * 7, "Sibal");
+        out = new ReShape<float>(out, 1, 1, 128 * 7 * 7, "D_ReShape3");
         out = new Linear<float>(out, 128 * 7 * 7, 1);
-        // out = new Tanh<float>(out, "Tanh");
-        out = new Sigmoid<float>(out, "D_Sigmo");
+        out = new Sigmoid<float>(out, "D_Sigmoid3");
 
-
-        
         this->AnalyzeGraph(out);
     }
 };

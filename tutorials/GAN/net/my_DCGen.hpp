@@ -22,6 +22,7 @@ public:
         const int D = 128;
         
 
+        // // for 64x64 
         // // ======================= layer 1 ======================
         // out = new TransposedConvolutionLayer2D<float>(out, 100, D*8, 4, 4, 1, 1, 0, 0, "G_TranspoedConv1");
         // out = new BatchNormalizeLayer<float>(out, FALSE, "G_BN1");
@@ -47,23 +48,19 @@ public:
 
 
         out = new Linear<float>(out, 100, 7 * 7 * 128);
-        out = new ReShape<float>(out, 128, 7, 7, "G_Reshape");
-        out = new BatchNormalizeLayer<float>(out, TRUE, "asd");
-        out = new Relu<float>(out, "RR");
-
-        out = new TransposedConvolutionLayer2D<float>(out, 128, 64, 4, 4, 2, 2, 1, FALSE, "G_TranspoedConv1");
+        out = new ReShape<float>(out, 128, 7, 7, "G_Reshape1");
         out = new BatchNormalizeLayer<float>(out, TRUE, "G_BN1");
-        out = new Relu<float>(out, "G_R1");
+        out = new Relu<float>(out, "G_Relu1");
 
-        out = new TransposedConvolutionLayer2D<float>(out, 64, 1, 4, 4, 2, 2, 1, FALSE, "G_TransposedConv2");
+        out = new TransposedConvolutionLayer2D<float>(out, 128, 64, 4, 4, 2, 2, 1, FALSE, "G_TranspoedConv2");
         out = new BatchNormalizeLayer<float>(out, TRUE, "G_BN2");
-        //out = new Relu<float>(out, "G_R2");
+        out = new Relu<float>(out, "G_Relu2");
 
-        //out = new TransposedConvolutionLayer2D<float>(out, 32, 1, 5, 5, 2, 2, 1, 1, "G_TransposedConv3");
-        out = new Sigmoid<float>(out, "G_Tanh1");
+        out = new TransposedConvolutionLayer2D<float>(out, 64, 1, 4, 4, 2, 2, 1, FALSE, "G_TransposedConv3");
+        out = new BatchNormalizeLayer<float>(out, TRUE, "G_BN3");
 
+        out = new Sigmoid<float>(out, "G_Tanh");
         out = new ReShape<float>(out, 1, 1, 28*28, "Img2Flat");
-
 
         this->AnalyzeGraph(out);
     }

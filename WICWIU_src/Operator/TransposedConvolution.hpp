@@ -141,7 +141,7 @@ public:
         this->SetResult(new Tensor<DTYPE>((*shapeOfInput)[0], (*shapeOfInput)[1], (*shapeOfWeight)[2], outputHeight, outputWidth));
         this->SetDelta(new Tensor<DTYPE>((*shapeOfInput)[0], (*shapeOfInput)[1], (*shapeOfWeight)[2], outputHeight, outputWidth));
 
-        std::cout << outputWidth << " " << outputHeight << std::endl;
+        // std::cout << outputWidth << " " << outputHeight << std::endl;
 
         return TRUE;
     }
@@ -195,9 +195,7 @@ public:
         checkCUDNN(cudnnCreateConvolutionDescriptor(&convDesc));
         checkCUDNN(cudnnCreateFilterDescriptor(&filterDesc));
         checkCUDNN(cudnnCreateFilterDescriptor(&filterDeltaDesc));
-
-        std::cout << "trainsposed Conv "<<  batchsize << "ch:" << channelsize << " ro:" << rowsize << " co:" << colsize << std::endl;
-
+       
         checkCUDNN(cudnnSetTensor4dDescriptor(inputTensorDesc, CUDNN_TENSOR_NCHW, CUDNN_DATA_FLOAT,
                                               batchsizeOfInput, channelsizeOfInput, rowsizeOfInput, colsizeOfInput));
 

@@ -5,7 +5,7 @@
 #include "../../WICWIU_src/Operator/NoiseGenerator/GaussianNoiseGenerator.hpp"
 #include <time.h>
 
-#define BATCH                 10
+#define BATCH                 32
 #define EPOCH                 100
 #define LOOP_FOR_TRAIN        (60000 / BATCH)
 #define LOOP_FOR_TEST         (10000 / BATCH)
@@ -149,8 +149,8 @@ int main(int argc, char const *argv[]) {
             net->FeedInputTensor(1, z_t);
             net->Test();
 
-            // testGenLoss  = (*net->GetGeneratorLossFunction()->GetResult())[Index5D(net->GetGeneratorLossFunction()->GetResult()->GetShape(), 0, 0, 0, 0, 0)];
-            // testDiscLoss  = (*net->GetDiscriminatorLossFunction()->GetResult())[Index5D(net->GetDiscriminatorLossFunction()->GetResult()->GetShape(), 0, 0, 0, 0, 0)];
+            testGenLoss  = (*net->GetGeneratorLossFunction()->GetResult())[Index5D(net->GetGeneratorLossFunction()->GetResult()->GetShape(), 0, 0, 0, 0, 0)];
+            testDiscLoss  = (*net->GetDiscriminatorLossFunction()->GetResult())[Index5D(net->GetDiscriminatorLossFunction()->GetResult()->GetShape(), 0, 0, 0, 0, 0)];
 
             string filePath  = "evaluated/step" + std::to_string(i) + "_" + std::to_string(j) + ".jpg";
             const char *cstr = filePath.c_str();
